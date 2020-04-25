@@ -70,5 +70,5 @@ void loop() {
   Serial.print("Duracao: ");
   Serial.println(duracao);
 
-  delay(12000); //dois minutos
+  delay(12000000); //dois minutos
 }
