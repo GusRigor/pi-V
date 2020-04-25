@@ -43,10 +43,12 @@ void setup() {
 }
 
 long duracao;
-float distancia, aux;
+float distancia;
+float aux = 0;
+float anterior = 0;
 
 void loop() {
-  
+  anterior = aux;
   timeClient.update();
   unsigned long epochTime = timeClient.getEpochTime();
   Serial.print("Epoch Time: ");
@@ -65,10 +67,14 @@ void loop() {
   Serial.print("Distancia: ");
   Serial.println(distancia);
   value = String(distancia);
-  Firebase.setString(folder,value);
+  
+  if(anterior + 2.0 < aux ){
+    Firebase.setString(folder,value);
+    Serial.println("Postado no firebase");
+  }
   
   Serial.print("Duracao: ");
   Serial.println(duracao);
 
-  delay(12000000); //dois minutos
+  delay(1000); // minutos
 }
