@@ -8,8 +8,8 @@
 #include <WiFiUdp.h>
 
 //Definicoes
-#define FIREBASE_HOST "teste-89a4a.firebaseio.com"
-#define FIREBASE_AUTH "g7UEAxozoXIl6XhZy3Zqspyw7Rw4TMjVp6OIyuR9"
+#define FIREBASE_HOST "pi---5.firebaseio.com"
+#define FIREBASE_AUTH "yLWDF0NIdX6lMLLcyybRI1FjGGMKQv1jqhfYsLN9"
 #define WIFI_SSID "TrocoSenhaPorCerveja"
 #define WIFI_PASSWORD "renatobike"
 
@@ -45,10 +45,10 @@ void setup() {
 long duracao;
 float distancia;
 float aux = 0;
-float anterior = 0;
+float count = 0;
 
 void loop() {
-  anterior = aux;
+  count++;
   timeClient.update();
   unsigned long epochTime = timeClient.getEpochTime();
   Serial.print("Epoch Time: ");
@@ -67,14 +67,16 @@ void loop() {
   Serial.print("Distancia: ");
   Serial.println(distancia);
   value = String(distancia);
+  aux = distancia;
   
-  if(anterior + 2.0 < aux ){
+  if(count > 6 ){
     Firebase.setString(folder,value);
     Serial.println("Postado no firebase");
+    count = 0;
   }
   
   Serial.print("Duracao: ");
   Serial.println(duracao);
 
-  delay(1000); // minutos
+  delay(10000); // minutos
 }
