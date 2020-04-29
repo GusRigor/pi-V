@@ -45,10 +45,11 @@ void setup() {
 long duracao;
 float distancia;
 float aux = 0;
-float count = 0;
+int count = 0;
+float vetorPosicao[10];
 
 void loop() {
-  count++;
+
   timeClient.update();
   unsigned long epochTime = timeClient.getEpochTime();
   Serial.print("Epoch Time: ");
@@ -64,19 +65,40 @@ void loop() {
   duracao = pulseIn(echoPin, HIGH ,1000000);
   aux = duracao;
   distancia = (aux*340/10000)/2;
+  
   Serial.print("Distancia: ");
   Serial.println(distancia);
   value = String(distancia);
-  aux = distancia;
+
+  if(distancia < 25.0){
+    count++;
+    aux = distancia;
+    vetorPosicao[count-1] = aux;
   
-  if(count > 6 ){
-    Firebase.setString(folder,value);
-    Serial.println("Postado no firebase");
-    count = 0;
+    Serial.print("Contador: ");
+    Serial.println(count);
+    if(count > 6 ){
+      aux = 0;
+      for(int i = 0; i != count-1; i++){
+        aux += vetorPosicao[i];
+        Serial.print("aux: ");
+        Serial.println(aux);
+      }
+      aux += distancia;
+      aux = aux/7;
+      Serial.print("aux: ");
+      Serial.println(aux);
+      Firebase.setString(folder,value);
+      Serial.println("Postado no firebase");
+      count = 0;
+    }
+    Serial.print("Contador: ");
+    Serial.println(count);
+    
+    Serial.print("Duracao: ");
+    Serial.println(duracao);
+    Serial.println("========================================");
   }
   
-  Serial.print("Duracao: ");
-  Serial.println(duracao);
-
   delay(10000); // minutos
 }
