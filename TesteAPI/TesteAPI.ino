@@ -122,10 +122,6 @@ void makePOSTlocation()
   lon += location[27];
   lon += location[28];
   Serial.println(lon);
-  
-  
-  
-  
 }
  
 void setup() {  
