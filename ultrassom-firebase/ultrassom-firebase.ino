@@ -40,7 +40,7 @@ void setup() {
   Serial.println(WiFi.localIP());
   
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-  Firebase.setString("products/PIV0069/hMax","25.0");
+  Firebase.setString("products/PIV0069/trashes/0/hMax","25.0");
 
   timeClient.begin();
   timeClient.setTimeOffset(0);
@@ -49,8 +49,8 @@ void setup() {
   pinMode(echoPin, INPUT);
   digitalWrite(trigPin, LOW);
   makePOSTlocation();
-  Firebase.setString("products/PIV0069/trashes/1/location/longitude",longitude);
-  Firebase.setString("products/PIV0069/trashes/1/location/latitude",latitude);
+  Firebase.setString("products/PIV0069/trashes/0/location/longitude",longitude);
+  Firebase.setString("products/PIV0069/trashes/0/location/latitude",latitude);
 }
 
 long duracao;
@@ -66,7 +66,7 @@ void loop() {
   Serial.print("Epoch Time: ");
   Serial.println(epochTime);
   
-  folder = "products/PIV0069/trashes/1/level/" + String(epochTime);
+  folder = "products/PIV0069/trashes/0/level/timestamp";
   Serial.println(folder);
   
   digitalWrite(trigPin,HIGH);
@@ -99,7 +99,9 @@ void loop() {
       aux = aux/7;
       Serial.print("aux: ");
       Serial.println(aux);
-      Firebase.setString(folder,value);
+      folder = String(epochTime);
+      Firebase.setString("products/PIV0069/trashes/0/level/timestamp",folder);
+      Firebase.setString("products/PIV0069/trashes/0/level/measure",value);
       Serial.println("Postado no firebase");
       count = 0;
     }
