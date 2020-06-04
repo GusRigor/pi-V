@@ -127,6 +127,19 @@ void makePOSTlocation()
 void setup() {  
   Serial.begin(115200);   
   initWiFi();
+  StaticJsonDocument<200> doc;
+  DeserializationError error = deserializeMsgPack(doc, input);
+
+  // Test if parsing succeeded.
+  if (error) {
+    Serial.print("deserializeMsgPack() failed: ");
+    Serial.println(error.c_str());
+    return;
+  }
+  double latitude = doc["lat"];
+  double longitude = doc["lon"];
+  Serial.println(latitude)
+  Serial.println(longitude)
   makePOSTlocation();
 }
  

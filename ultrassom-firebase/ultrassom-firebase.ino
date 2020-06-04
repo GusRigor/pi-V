@@ -6,7 +6,7 @@
 #include <FirebaseArduino.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
-#include <ArduinoJson.h>
+//4#include <ArduinoJson.h>
 
 const char* IpApiHost = "ip-api.com";
 
@@ -183,10 +183,10 @@ void makePOSTlocation()
   lat += location[11];
   lat += location[12];
   lat += location[13];
+  lat += location[14];
   Serial.println(lat);
   latitude = lat;
   Serial.print("Lon: ");
-  lon += location[21];
   lon += location[22];
   lon += location[23];
   lon += location[24];
@@ -194,6 +194,7 @@ void makePOSTlocation()
   lon += location[26];
   lon += location[27];
   lon += location[28];
+  lon += location[29];
   Serial.println(lon);
   longitude = lon;
 }
